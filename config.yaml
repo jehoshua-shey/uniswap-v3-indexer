@@ -1,57 +1,35 @@
-# yaml-language-server: $schema=./node_modules/envio/evm.schema.json
-name: uni_v3
-rollback_on_reorg: true
-unordered_multichain_mode: true
-
-contracts:
-  - name: UniswapV3Factory
-    handler: src/EventHandlers.ts
-    events:
-      - event: PoolCreated(address indexed token0, address indexed token1, uint24 indexed fee, int24 tickSpacing, address pool)
-  - name: UniswapV3Pool
-    handler: src/EventHandlers.ts
-    events:
-      - event: Initialize(uint160 sqrtPriceX96, int24 tick)
-      - event: Collect(address indexed owner, address recipient, int24 indexed tickLower, int24 indexed tickUpper, uint128 amount0, uint128 amount1)
-        field_selection:
-          transaction_fields:
-            - hash
-            - gasPrice
-      - event: Burn(address indexed owner, int24 indexed tickLower, int24 indexed tickUpper, uint128 amount, uint256 amount0, uint256 amount1)
-        field_selection:
-          transaction_fields:
-            - hash
-            - gasPrice
-            - from
-      - event: Mint(address sender, address indexed owner, int24 indexed tickLower, int24 indexed tickUpper, uint128 amount, uint256 amount0, uint256 amount1)
-        field_selection:
-          transaction_fields:
-            - hash
-            - gasPrice
-            - from
-      - event: Swap(address indexed sender, address indexed recipient, int256 amount0, int256 amount1, uint160 sqrtPriceX96, uint128 liquidity, int24 tick)
-        field_selection:
-          transaction_fields:
-            - hash
-            - gasPrice
-            - from
-
 networks:
-  - id: 1 # Ethereum Mainnet
-    start_block: 0
-    contracts:
-      - name: UniswapV3Factory
-        address: 0x1F98431c8aD98523631AE4a59f267346ea31F984
-      - name: UniswapV3Pool
-  # - id: 42161 # Arbitrum One
-  #   start_block: 0
-  #   contracts:
-  #     - name: UniswapV3Factory
-  #       address: 0x1F98431c8aD98523631AE4a59f267346ea31F984
-  #     - name: UniswapV3Pool
-  # - id: 10 # Optimism
-  #   start_block: 0
-  #   contracts:
-  #     - name: UniswapV3Factory
-  #       address: 0x1F98431c8aD98523631AE4a59f267346ea31F984
-  #     - name: UniswapV3Pool
+  - id: 10143
+    rpc_config:
+      url: https://testnet-rpc.monad.xyz  # Replace with actual RPC URL
+contracts:
+  - name: Magma
+    address: 0x2c9C959516e9AAEdB2C748224a41249202ca8BE7
+    abi_path: ./abis/Magma.json
+    handlers:
+      - event: "*"
+        handler: handleAllEvents
+  - name: Monad2048
+    address: 0xe0FA8195AE92b9C473c0c0c12c2D6bCbd245De47
+    abi_path: ./abis/Monad2048.json
+    handlers:
+      - event: "*"
+        handler: handleAllEvents
+  - name: WrappedMonad
+    address: 0x760AfE86e5de5fa0Ee542fc7B7B713e1c5425701
+    abi_path: ./abis/WrappedMonad.json
+    handlers:
+      - event: "*"
+        handler: handleAllEvents
+  - name: Ambient
+    address: 0x88B96aF200c8a9c35442C8AC6cd3D22695AaE4F0
+    abi_path: ./abis/Ambient.json
+    handlers:
+      - event: "*"
+        handler: handleAllEvents
+  - name: Madness
+    address: 0x64Aff7245EbdAAECAf266852139c67E4D8DBa4de
+    abi_path: ./abis/Madness.json
+    handlers:
+      - event: "*"
+        handler: handleAllEvents
